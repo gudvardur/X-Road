@@ -1,6 +1,17 @@
 #!/bin/bash
 
+set -e
+
 if [ "$1" = "upgrade" ]; then
+
+    CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
+    if dpkg --compare-versions "$2" lt-nl "7.1.0"
+      then
+        echo "prevent install"
+      else
+        echo "allow install"
+    fi
+
     if dpkg --compare-versions "$2" lt-nl "6.3"
     then
      for service in `initctl list | grep xroad | awk '{print $1}'`
