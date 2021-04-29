@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+echo "xroad-signer prerm script executing"
+echo "Printing parameters"
+echo $@
+
+if [ "$1" = "upgrade" ]; then
+  echo "xroad-signer prerm script upgrade"
+  echo "this is where we check if the package upgrade is allowed"
+  exit 1
+elif [ "$1" = "failed-upgrade" ]; then
+  echo "xroad-signer prerm script failed-upgrade"
+  exit 1
+else
+  echo "xroad-signer no match for the parameter"
+  echo "$1"
+fi

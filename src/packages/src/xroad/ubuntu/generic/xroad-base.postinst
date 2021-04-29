@@ -6,7 +6,7 @@ echo "Printing parameters"
 echo $@
 
 if [ "$1" = abort-upgrade ]; then
-  echo "postinst script abort-upgrade"
+  echo "xroad-base postinst script abort-upgrade"
   exit 0
 fi
 

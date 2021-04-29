@@ -4,6 +4,11 @@ set -e
 
 umask 027
 
+if [ "$1" = abort-upgrade ]; then
+  echo "xroad-signer postinst script abort-upgrade"
+  exit 0
+fi
+
 if [ "$1" = configure ]; then
     chmod 0440 /etc/xroad/backup.d/??_xroad-signer
 

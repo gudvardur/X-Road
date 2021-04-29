@@ -2,18 +2,27 @@
 
 set -e
 
-echo "prerm script executing"
+echo "xroad-base prerm script executing"
 echo "Printing parameters"
 echo $@
 
-#if [ "$1" = "upgrade" ]; then
-#  echo "prerm script upgrade"
-#  echo "this is where we check if the package upgrade is allowed"
-#  exit 1
-#elif [ "$1" = "failed-upgrade" ]; then
-#  echo "prerm script failed-upgrade"
-#  exit 1
-#else
-#  echo "no match for the parameter"
-#  echo "$1"
-#fi
+if [ "$1" = "upgrade" ]; then
+  echo "xroad-base prerm script upgrade"
+  echo "this is where we check if the package upgrade is allowed"
+
+  #    CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
+  #    if dpkg --compare-versions "$2" lt-nl "7.1.0"
+  #      then
+  #        echo "prevent install"
+  #      else
+  #        echo "allow install"
+  #    fi
+
+  exit 1
+elif [ "$1" = "failed-upgrade" ]; then
+  echo "xroad-base prerm script failed-upgrade"
+  exit 1
+else
+  echo "xroad-base no match for the parameter"
+  echo "$1"
+fi
