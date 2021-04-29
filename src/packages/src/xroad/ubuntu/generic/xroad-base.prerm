@@ -5,3 +5,13 @@ set -e
 echo "prerm script executing"
 echo "Printing parameters"
 echo $@
+
+if [ "$1" = "upgrade" ]; then
+  echo "prerm script upgrade"
+  exit 1
+fi
+
+if [ "$1" = "failed-upgrade" ]; then
+  echo "prerm script failed-upgrade"
+  exit 1
+fi

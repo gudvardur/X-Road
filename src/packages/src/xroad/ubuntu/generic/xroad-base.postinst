@@ -1,6 +1,15 @@
 #!/bin/bash
 umask 027
 
+echo "postinst script executing"
+echo "Printing parameters"
+echo $@
+
+if [ "$1" = abort-upgrade ]; then
+  echo "postinst script abort-upgrade"
+  exit 0
+fi
+
 if [ "$1" = configure ]; then
     # Make sure the administrative user exists
     if ! getent passwd xroad > /dev/null; then
