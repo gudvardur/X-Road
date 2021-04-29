@@ -6,17 +6,15 @@ echo "Printing parameters"
 echo "$1"
 echo "$2"
 
-exit 1
-
 if [ "$1" = "upgrade" ]; then
 
-    CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
-    if dpkg --compare-versions "$2" lt-nl "7.1.0"
-      then
-        echo "prevent install"
-      else
-        echo "allow install"
-    fi
+#    CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
+#    if dpkg --compare-versions "$2" lt-nl "7.1.0"
+#      then
+#        echo "prevent install"
+#      else
+#        echo "allow install"
+#    fi
 
     if dpkg --compare-versions "$2" lt-nl "6.3"
     then
