@@ -8,7 +8,7 @@ echo $@
 
 if [ "$1" = "upgrade" ]; then
   echo "prerm script upgrade"
-  echo "this is where we check if the package upgrade is allowed - this time we reject it"
+  echo "this is where we check if the package upgrade is allowed"
   exit 1
 elif [ "$1" = "failed-upgrade" ]; then
   echo "prerm script failed-upgrade"
