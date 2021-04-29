@@ -2,6 +2,7 @@
 
 set -e
 
+echo "preinst script executing"
 echo "Printing parameters"
 echo "$1"
 echo "$2"
