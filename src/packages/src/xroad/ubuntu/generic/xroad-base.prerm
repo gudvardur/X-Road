@@ -4,5 +4,4 @@ set -e
 
 echo "prerm script executing"
 echo "Printing parameters"
-echo "$1"
-echo "$2"
+echo $@
