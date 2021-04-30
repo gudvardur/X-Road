@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -e
-
-echo "xroad-signer postrm script executing"
-echo "Printing parameters"
-echo $@
