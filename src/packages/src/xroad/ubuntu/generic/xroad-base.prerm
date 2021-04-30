@@ -2,6 +2,18 @@
 
 set -e
 
+# Increment a semantic version number
+# Parameters
+# $1: version number e.g. 7.0.0-0.20210430092553gitab82921.ubuntu18.04
+# $2: number of the part to increment: 0 – major, 1 – minor, 2 – patch
+# $3: how many versions to increment e.g. 1 for the next version
+function increment_version() {
+  local delimiter=.
+  local array=($(echo "${1%-*}" | tr $delimiter '\n'))
+  array[$2]=$((array[$2]+$3))
+  echo $(local IFS=$delimiter ; echo "${array[*]}")
+}
+
 echo "xroad-base prerm script executing"
 echo "Printing parameters"
 echo $@
@@ -13,7 +25,7 @@ if [ "$1" = "upgrade" ]; then
   CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
   echo "$CURRENT_VERSION"
   echo "incrementing version"
-  INCREMENTED_VERSION=$(/usr/share/xroad/scripts/version_utils.sh "$CURRENT_VERSION" 1 2)
+  INCREMENTED_VERSION=$(increment_version "$CURRENT_VERSION" 1 2)
   echo "$INCREMENTED_VERSION"
   echo "comparing versions"
   if dpkg --compare-versions "$2" lt-nl "$INCREMENTED_VERSION"
@@ -22,7 +34,6 @@ if [ "$1" = "upgrade" ]; then
   else
     echo "allow install"
   fi
-
   exit 1
 elif [ "$1" = "failed-upgrade" ]; then
   echo "xroad-base prerm script failed-upgrade"
@@ -31,3 +42,4 @@ else
   echo "xroad-base no match for the parameter"
   echo "$1"
 fi
+
