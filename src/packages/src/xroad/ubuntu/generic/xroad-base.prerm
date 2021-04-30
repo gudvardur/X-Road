@@ -20,25 +20,20 @@ echo $@
 
 if [ "$1" = "upgrade" ]; then
   echo "xroad-base prerm script upgrade"
-  echo "resolving current version"
   CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
-  echo "$CURRENT_VERSION"
-  echo "incrementing version"
   INCREMENTED_VERSION=$(increment_version "$CURRENT_VERSION" 1 2)
-  echo "$INCREMENTED_VERSION"
-  echo "comparing versions"
-  if dpkg --compare-versions "$2" lt-nl "$INCREMENTED_VERSION"
+  echo "comparing versions $2 and $INCREMENTED_VERSION"
+  if dpkg --compare-versions "$2" le-nl "$INCREMENTED_VERSION"
   then
-    echo "prevent install"
-  else
     echo "allow install"
+    exit 0
+  else
+    echo "prevent install"
+    exit 1
   fi
-  exit 1
-elif [ "$1" = "failed-upgrade" ]; then
-  echo "xroad-base prerm script failed-upgrade"
-  exit 1
-else
-  echo "xroad-base no match for the parameter"
-  echo "$1"
 fi
 
+if [ "$1" = "failed-upgrade" ]; then
+  echo "xroad-base prerm script failed-upgrade"
+  exit 1
+fi
