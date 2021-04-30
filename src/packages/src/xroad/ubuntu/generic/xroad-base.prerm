@@ -9,14 +9,19 @@ echo $@
 if [ "$1" = "upgrade" ]; then
   echo "xroad-base prerm script upgrade"
   echo "this is where we check if the package upgrade is allowed"
-
-  #    CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
-  #    if dpkg --compare-versions "$2" lt-nl "7.1.0"
-  #      then
-  #        echo "prevent install"
-  #      else
-  #        echo "allow install"
-  #    fi
+  echo "resolving current version"
+  CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
+  echo "$CURRENT_VERSION"
+  echo "incrementing version"
+  INCREMENTED_VERSION=$(/usr/share/xroad/scripts/version_utils.sh "$CURRENT_VERSION" 1 2)
+  echo "$INCREMENTED_VERSION"
+  echo "comparing versions"
+  if dpkg --compare-versions "$2" lt-nl "$INCREMENTED_VERSION"
+  then
+    echo "prevent install"
+  else
+    echo "allow install"
+  fi
 
   exit 1
 elif [ "$1" = "failed-upgrade" ]; then
