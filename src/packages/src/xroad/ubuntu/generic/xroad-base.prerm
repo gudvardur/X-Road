@@ -20,7 +20,6 @@ echo $@
 
 if [ "$1" = "upgrade" ]; then
   echo "xroad-base prerm script upgrade"
-  echo "this is where we check if the package upgrade is allowed"
   echo "resolving current version"
   CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-base)
   echo "$CURRENT_VERSION"
