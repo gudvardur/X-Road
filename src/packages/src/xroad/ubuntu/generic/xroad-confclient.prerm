@@ -17,3 +17,4 @@ else
   echo "xroad-confclient no match for the parameter"
   echo "$1"
 fi
+
