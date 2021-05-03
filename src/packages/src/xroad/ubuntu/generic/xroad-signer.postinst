@@ -4,11 +4,6 @@ set -e
 
 umask 027
 
-if [ "$1" = abort-upgrade ]; then
-  echo "xroad-signer postinst script abort-upgrade"
-  exit 0
-fi
-
 if [ "$1" = configure ]; then
     chmod 0440 /etc/xroad/backup.d/??_xroad-signer
 
@@ -59,6 +54,10 @@ if [ "$1" = configure ]; then
         ls ${signer_folder}/*.p12 > /dev/null 2>&1 && rm ${signer_folder}/*.p12
     fi
 
+fi
+
+if [ "$1" = abort-upgrade ]; then
+  exit 0
 fi
 
 #DEBHELPER#

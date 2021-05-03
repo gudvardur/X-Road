@@ -2,18 +2,38 @@
 
 set -e
 
-echo "xroad-signer prerm script executing"
-echo "Printing parameters"
-echo $@
+# Increment a semantic version number
+# Parameters
+# $1: version number e.g. 7.0.0-0.20210430092553gitab82921.ubuntu18.04
+# $2: index of the semantic version number part to increment: 0 – major, 1 – minor, 2 – patch
+# $3: how many versions to increment e.g. 1 for the next version
+function increment_version() {
+  local delimiter=.
+  local array=($(echo "${1%-*}" | tr $delimiter '\n'))
+  array[$2]=$((array[$2]+$3))
+  echo $(local IFS=$delimiter ; echo "${array[*]}")
+}
+
+echo "xroad-signer prerm script executing with parameters $@"
 
 if [ "$1" = "upgrade" ]; then
-  echo "xroad-signer prerm script upgrade"
-  echo "this is where we check if the package upgrade is allowed"
-  exit 1
-elif [ "$1" = "failed-upgrade" ]; then
-  echo "xroad-signer prerm script failed-upgrade"
-  exit 1
-else
-  echo "xroad-signer no match for the parameter"
-  echo "$1"
+  CURRENT_VERSION=$(dpkg-query -W -f '${Version}' xroad-signer)
+  INCREMENTED_VERSION=$(increment_version "$CURRENT_VERSION" 1 2)
+  UPGRADE_VERSION="${2%-*}"
+  echo "comparing upgrade version $UPGRADE_VERSION and $INCREMENTED_VERSION"
+  if dpkg --compare-versions "$UPGRADE_VERSION" le-nl "$INCREMENTED_VERSION"
+  then
+    echo "allow install"
+    exit 0
+  else
+    echo "prevent install"
+    exit 1
+  fi
 fi
+
+if [ "$1" = "failed-upgrade" ]; then
+  exit 1
+fi
+
+exit 0
+

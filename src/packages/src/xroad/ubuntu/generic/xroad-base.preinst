@@ -2,10 +2,6 @@
 
 set -e
 
-echo "preinst script executing"
-echo "Printing parameters"
-echo $@
-
 if [ "$1" = "upgrade" ]; then
 
     if dpkg --compare-versions "$2" lt-nl "6.3"
